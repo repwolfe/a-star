@@ -1,0 +1,47 @@
+<html>
+<head>
+	<title>A* Demo</title>
+	<script type="text/javascript" src="gl-matrix-min.js"></script>
+	<script type="text/javascript" src="webgl-utils.js"></script>
+	<script type="text/javascript" src="webgl.js"></script>
+	<!-- Fragment/Pixel Shader -->
+	<script id="shader-fs" type="x-shader/x-fragment">
+		precision mediump float;		// How precise to be with floats
+
+		varying vec4 vColor;			// Interpolated from the vertices
+
+		void main(void) {
+			// Output the color
+			gl_FragColor = vColor;
+		}
+	</script>
+
+	<!-- Vertex Shader -->
+	<script id="shader-vs" type="x-shader/x-vertex">
+		attribute vec3 aVertexPosition;		// Passed in
+		attribute vec4 aVertexColor;
+
+		uniform mat4 uMVMatrix;		// Model View Matrix
+		uniform mat4 uPMatrix;		// Perspective Matrix
+
+		varying vec4 vColor;
+
+		void main(void) {
+			// Output the vertex transformed by the perspective and model view matrix
+			gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+
+			// Pass the vertex's color to pixel shader
+			vColor = aVertexColor;
+		}
+	</script>
+</head>
+<body bgcolor="#ccc" onload="webGLStart();">
+	<canvas id="canvas" width="700px" height="500px" style="
+		padding-left: 0;
+    	padding-right: 0;
+    	margin: auto;
+    	display: block; 
+    	border-style: solid; 
+    	border-width: 1px;" />
+</body>
+</html>
